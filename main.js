@@ -20,8 +20,7 @@ const btn = document.querySelector('.submit');
 const list = document.querySelector('.list');
 const clear = document.querySelector('.clear');
 
-let groceries = [];
-let editElement = null;
+let editElementReference = null;
 
 // Function
 
@@ -44,19 +43,53 @@ const printInfoMsg = (msg, add) => {
     }, 3000);
 }
 
-const addItem = (item) => {
-    const id = new Date().getTime().toString();
+const getLocalStorage = (key) => {
+    return localStorage.hasOwnProperty(key) ? JSON.parse(localStorage.getItem(key)) : [];
+}
 
-    item = item[0].toUpperCase() + item.slice(1);
-    groceries.push(
+const addItemToLocalStorage = (item, id) => {
+    let list = getLocalStorage('list');
+    list.push(
         {
             name: item,
             id: id
         }
     );
+    localStorage.setItem('list', JSON.stringify(list));
+}
 
-    printInfoMsg('Item added to the list.', 'green');
+const removeLocalStorageItem = (itemIdToRemove) => {
+    let list = getLocalStorage('list');
+    list = list.filter(item => item.id !== itemIdToRemove);
+    localStorage.setItem('list', JSON.stringify(list));
+}
 
+const editListItem = (newItem) => {
+    editElementReference[0].textContent = newItem;
+    editLocalStorageItem(newItem);
+    editElementReference = null;
+}
+
+const editLocalStorageItem = (newItem) => {
+    let list = getLocalStorage('list');
+    const elementToEdit = list.find(item => item.id === editElementReference[1]);
+
+    elementToEdit['name'] = newItem;
+
+    localStorage.setItem('list', JSON.stringify(list));
+}
+
+const addItemToList = (item) => {
+    const id = new Date().getTime().toString();
+
+    item = item[0].toUpperCase() + item.slice(1);
+
+    addItemToLocalStorage(item, id);
+
+    printItemInList(item, id);
+}
+
+const printItemInList = (item, id) => {
     const itemContainer = buildElement({
         tag: 'div',
         classes: 'item',
@@ -90,20 +123,7 @@ const addItem = (item) => {
     list.appendChild(itemContainer);
 }
 
-const editItem = (newItem) => {
-    editElement[0].textContent = newItem;
-    editElement[1].name = newItem;
-
-    printInfoMsg('Item edited successfully.', 'green');
-
-    btn.textContent = 'Submit';
-    editElement = null;
-}
-
-const removeItem = (itemIdToRemove) => {
-    groceries = groceries.filter(item => item.id !== itemIdToRemove);
-
-    printInfoMsg('Item deleted successfully.', 'red');
+const listIsEmpty = () => {
     if (list.firstElementChild) clear.classList.add('hasElement');
     else clear.classList.remove('hasElement');
 }
@@ -120,15 +140,17 @@ btn.addEventListener('click', e => {
     }
     else {
         if (btn.textContent === 'Submit') {
-            addItem(item);
+            addItemToList(item);
+            printInfoMsg('Item added to the list.', 'green');
         }
         else {
-            editItem(item);
+            editListItem(item);
+            printInfoMsg('Item edited successfully.', 'green');
+            btn.textContent = 'Submit';
         }
     }
 
-    if (list.firstElementChild) clear.classList.add('hasElement');
-    else clear.classList.remove('hasElement');
+    listIsEmpty();
 
     input.value = '';
     input.focus();
@@ -138,29 +160,40 @@ list.addEventListener('click', e => {
     if (!e.target.closest('button')) return;
 
     const btnClicked = e.target.closest('button');
-    const itemElement = btnClicked.parentElement;
-    const itemId = itemElement.dataset.id;
+    const listItem = btnClicked.parentElement;
+    const itemId = listItem.dataset.id;
     const btnType = btnClicked.dataset.type;
 
     if (btnType === 'edit') {
         btn.textContent = 'Edit';
-        editElement = [itemElement.querySelector('p'), groceries.find(item => item.id === itemId)];
-        input.value = editElement[1].name;
+        editElementReference = [listItem.querySelector('p'), itemId];
+        input.value = editElementReference[0].textContent;
     }
     else {
         btnClicked.parentElement.remove();
-        removeItem(itemId);
+        printInfoMsg('Item deleted successfully.', 'red');
+        removeLocalStorageItem(itemId);
+        listIsEmpty();
     }
 
     input.focus();
 }, false);
 
 clear.addEventListener('click', () => {
-    while(list.firstElementChild) list.firstElementChild.remove();
+    while (list.firstElementChild) list.firstElementChild.remove();
 
-    while(groceries[0]) groceries.shift();
+    localStorage.clear();
 
     printInfoMsg('All items were removed successfully.', 'red');
 
     clear.classList.remove('hasElement');
+}, false);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const list = getLocalStorage('list');
+    for (let i = 0; i < list.length; i++) {
+        printItemInList(list[i]['name'], list[i]['id']);
+    }
+
+    listIsEmpty();
 }, false);
