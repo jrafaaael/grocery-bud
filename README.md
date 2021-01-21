@@ -8,8 +8,6 @@ As a last option, there is the "Clear items" button whose function is to remove 
 
 "Grocery Bud" is a project inspired by the "Grocery Bud" project from the "Vanilla Javascript Projects" series of projects by John Smilga. The GitHub repository is https://github.com/john-smilga/javascript-basic-projects .
 
-# Update main.js
-Added support to localstorage.
-
-# Update style.css without comments...
-Update style.css without comments and with the styles finished
+# Changelog
+  1) Update main.js: Added support to localstorage.
+  2) Update style.css without comments...: Update style.css without comments and with the styles finished.
