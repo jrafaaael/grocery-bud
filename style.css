@@ -1,0 +1,170 @@
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    letter-spacing: 0.1rem;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    /* padding: 25vh 0; */
+    background-color: aliceblue;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+main {
+    width: 550px;
+    margin: auto;
+    padding: 2rem;
+    background-color: snow;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    transition: all 250ms ease;
+}
+
+main:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.info {
+    margin-bottom: 1rem;
+    display: none;
+    padding: .3rem 0;
+    border-radius: 3px;
+}
+
+.info.green {
+    background-color: rgba(91, 255, 91, 0.5);
+    display: block;
+}
+
+.info.red {
+    background-color: rgba(255, 109, 109, 0.5);
+    display: block;
+}
+
+.info,
+.title {
+    text-align: center;
+}
+
+.title {
+    margin-bottom: 1rem;
+    color: rgb(20, 0, 70);
+}
+
+form {
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+button {
+    cursor: pointer;
+}
+
+input,
+button {
+    border: none;
+    outline: none;
+}
+
+input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background-color: aliceblue;
+}
+
+form button {
+    padding: 0.5rem 0.75rem;
+    background-color: cornflowerblue;
+    transition: all .5s ease;
+}
+
+form button:hover {
+    color: aliceblue;
+    background-color: royalblue;
+}
+
+.list {
+    margin: 2rem 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: .25rem;
+}
+
+.item {
+    padding: .5rem .75rem;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    transition: all 250ms ease;
+}
+
+.item:hover {
+    background-color: aliceblue;
+}
+
+.item p {
+    margin-right: auto;
+}
+
+.item button {
+    background-color: transparent;
+}
+
+.item button:first-of-type {
+    margin-right: .5rem;
+}
+
+svg {
+    width: 25px;
+    display: block;
+}
+
+svg * {
+    transition: all 250ms ease;
+}
+
+.item button:first-of-type:hover polygon {
+    fill: green;
+    stroke: green;
+}
+
+.item button:first-of-type:hover path {
+    stroke: green;
+}
+
+.item button:last-of-type:hover svg {
+    fill: red;
+}
+
+.clear {
+    display: none;
+}
+
+.clear.hasElement{
+    width: fit-content;
+    margin: auto;
+    background-color: transparent;
+    color: rgb(255, 109, 109);
+    font-weight: 900;
+    display: block;
+    transition: all 250ms ease;
+}
+
+.clear.hasElement:hover {
+    color: red;
+}
