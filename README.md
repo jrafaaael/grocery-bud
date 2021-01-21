@@ -7,3 +7,9 @@ If your option is to edit the product name, the current name will be placed in t
 As a last option, there is the "Clear items" button whose function is to remove all the items from the list. 
 
 "Grocery Bud" is a project inspired by the "Grocery Bud" project from the "Vanilla Javascript Projects" series of projects by John Smilga. The GitHub repository is https://github.com/john-smilga/javascript-basic-projects .
+
+# "Update main.js"
+Added support to localstorage.
+
+# Update style.css without comments...
+Update style.css without comments and with the styles finished
