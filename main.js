@@ -20,9 +20,9 @@ const btn = document.querySelector('.submit');
 const list = document.querySelector('.list');
 const clear = document.querySelector('.clear');
 
-let editElementReference = null;
+let editItemReference = null;
 
-// Function
+// Functions
 
 const buildElement = (generator) => {
     const { tag, classes, data, text } = generator;
@@ -49,12 +49,10 @@ const getLocalStorage = (key) => {
 
 const addItemToLocalStorage = (item, id) => {
     let list = getLocalStorage('list');
-    list.push(
-        {
-            name: item,
-            id: id
-        }
-    );
+    list.push({
+        name: item,
+        id: id
+    });
     localStorage.setItem('list', JSON.stringify(list));
 }
 
@@ -65,14 +63,14 @@ const removeLocalStorageItem = (itemIdToRemove) => {
 }
 
 const editListItem = (newItem) => {
-    editElementReference[0].textContent = newItem;
+    editItemReference[0].textContent = newItem;
     editLocalStorageItem(newItem);
-    editElementReference = null;
+    editItemReference = null;
 }
 
 const editLocalStorageItem = (newItem) => {
     let list = getLocalStorage('list');
-    const elementToEdit = list.find(item => item.id === editElementReference[1]);
+    const elementToEdit = list.find(item => item.id === editItemReference[1]);
 
     elementToEdit['name'] = newItem;
 
@@ -98,7 +96,9 @@ const printItemInList = (item, id) => {
             dataInfo: id
         }
     });
+
     const itemName = buildElement({ tag: 'p', text: item });
+
     const edit = buildElement({
         tag: 'button',
         data: {
@@ -107,6 +107,7 @@ const printItemInList = (item, id) => {
         }
     });
     edit.innerHTML = editSVG;
+
     const remove = buildElement({
         tag: 'button',
         data: {
@@ -166,8 +167,8 @@ list.addEventListener('click', e => {
 
     if (btnType === 'edit') {
         btn.textContent = 'Edit';
-        editElementReference = [listItem.querySelector('p'), itemId];
-        input.value = editElementReference[0].textContent;
+        editItemReference = [listItem.querySelector('p'), itemId];
+        input.value = editItemReference[0].textContent;
     }
     else {
         btnClicked.parentElement.remove();
